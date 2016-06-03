@@ -6,6 +6,8 @@
   <link href="knjiznice/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {padding-top: 70px;}
+    select:invalid {color: #999;}
+    .margin-top {margin-top: 15px;}
   </style>
   <script src="knjiznice/js/jquery-2.2.3.min.js"></script>
   <script src="knjiznice/js/bootstrap.min.js"></script>
@@ -22,7 +24,7 @@
           <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
         </button>
         <!-- ZAČETEK: Ime vaše aplikacije -->
-        <a class="navbar-brand" href="index.html">{ime vaše aplikacije}</a>
+        <a class="navbar-brand" href="index.html">Rabim bika</a>
         <!-- KONEC: Ime vaše aplikacije -->
       </div>
       <div class="collapse navbar-collapse" id="menujska-vrstica">
@@ -39,8 +41,44 @@
   <!-- ZAČETEK: Vsebina aplikacije -->
   <div class="container">
     <div class="row">
-      <div class="col-lg-12 text-center">
-        <p class="lead"><strong>TO-DO</strong>: Na tem mestu implementirajte vašo aplikacijo.</p>
+      <!-- PANEL: Prijava novega bika -->
+      <div class="col-lg-12 col-md-6 col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><strong>PRIJAVA NOVEGA BIKA</strong></div>
+          <div class="panel-body">
+              <h4><span class="label label-info">Podatki o biku</span></h4>
+              <span class="label label-default">Ime</span><input type="text" id="vnosIme" class="form-control input-sm" placeholder="Milč">
+              <span class="label label-default">Datum rojstva</span><input type="text" id="vnosDatum" class="form-control input-sm" placeholder="29-11-2015">
+              <span class="label label-default">Pasma</span>
+                <select id="vnosPasma" class="form-control input-sm" placeholder="Izbira pasme">
+                  <option value="" selected="selected" disabled="disabled">Izberite pasmo</option>
+                  <option value="0">Črnobela</option>
+                  <option value="1">Lisasta</option>
+                  <option value="2">Rjava</option>
+                </select>
+              <span class="label label-default">Rejec</span><input type="text" id="vnosRejec" class="form-control input-sm" placeholder="David Rubin">
+              <span class="label label-default">Lokacija</span><input type="text" id="vnosLokacija" class="form-control input-sm" placeholder="Draža vas">
+              <h4><span class="label label-info margin-top">Podatki o hčerah</span></h4>
+              <div id="podatkiHcer">
+                <h6 style="display:inline-block; margin-left: 10px;">
+                  <span class="label label-warning">Prosimo izberite pasmo za nadaljni vnos podatkov</span>
+                </h6>
+              </div>
+            <button type="button" class="btn btn-primary btn-sm margin-top" onclick="dodajNovegaBika()">Prijava bika</button><span id="odzivKreacije"></span>
+          </div>
+        </div>        
+      </div>
+      <!-- PANEL: Prikaz podatkov o biku -->
+      <div class="col-lg-12 col-md-6 col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><strong>PRIKAZ PODATKOV O BIKU</strong></div>
+          <div class="panel-body">
+            <span class="label label-default">EHR ID</span><input type="text" id="vnosEHRId" class="form-control input-sm" placeholder="44070492-d88b-48ab-b60d-923a6d741c39">
+            <button type="button" class="btn btn-primary btn-sm margin-top" onclick="preberiBika()">Prikaži podatke</button><span id="odzivIzpisa"></span>
+            <div id="predstavitevPodatkov">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
