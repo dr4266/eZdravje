@@ -45,7 +45,11 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Opis ideje, ki jo aplikacija podpira -->
-            <p><strong>TO-DO</strong>: Na tem mestu je potrebno dodati <strong>osnovni opis ideje rešitve</strong> (kakšen je osnovni SCENARIJ UPORABE, KDO je ciljna publika, za kakšen NAMEN se aplikacija uporablja).</p><p class="text-muted">Opis naj ne bo daljši od 200 besed.</p>
+            <p> Aplikacija je namenjena kmetom, ki si želijo spletne strani, na kateri lahko preglejujejo bike in si
+                izberejo pravega partnerja za svojo kravico/telico. Uporabnik lahko na strani vnese svojega bika, ali
+                pa si z EHRId-jem pregleda osnovne podatke o enem izmed že vnešenih bikov. Za pomoč, katere pasme je
+                izbran bik, je na dnu spletne strani tudi okence, ki omogoča dostop do Wikipedie in obdela osnovne podatke
+                za izbrano pasmo v slovenskem ali angleškem jeziku.</p>
             <!-- KONEC: Opis ideje, ki jo aplikacija podpira -->
           </div>
         </div>
@@ -55,7 +59,17 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Uporabljeni zunanji viri podatkov -->
-            <p><strong>TO-DO</strong>: Na tem mestu je navesti zunanji vir podatkov (URL naslov), na kakšen način ste ga uporabili (neposredni API klic, uvožena statična datoteka ipd.) in kaj je bil namen uporabe (kako se vključuje v osnovno idejo aplikacije).</p>
+            <ul>
+              <li>
+                <img src="http://lj.kgzs.si/Portals/1/logo.png" style="width: 3%; margin-right: 10px;"><strong>Kmetijsko gozdarski zavod Ljubljana</strong>
+                <p> <a href="http://lj.kgzs.si/Portals/1/vsebine/Biki/KATALOG%202016/katalog-bikov-2016-web.pdf" target="_blank">Katalog bikov 2016</a> 
+                    mi je pomagal pri ugotavljanju osnovnih pomembnih lastnosti, ki se upoštevajo pri osemevanju krav. S to datoteko sem zasnoval spletno stran, neposredno se ne uporablja, se pa izraža kot vnosna polja in predstavitve podatkov,</p>
+              </li>
+              <li>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Wikipedia-logo-v2-sl.svg/220px-Wikipedia-logo-v2-sl.svg.png" style="width: 3%; margin-right: 10px;" > <strong>Wikipedija, prosta enciklopedija</strong>
+                <p> <a href="https://sl.wikipedia.org/wiki/Hol%C5%A1tajnsko_govedo" target="_blank">Frizike</a>, <a href="https://sl.wikipedia.org/wiki/Lisasto_govedo" target="_blank">Lisasta pasma</a>, <a href="https://sl.wikipedia.org/wiki/Doma%C4%8De_govedo" target="_blank">Domače govedo</a> in njihove angleške enakovrednice se preko neposrednega API klica prikazujejo na dnu osnovne strani. Omogoča, da se poleg specifičnih podatkov za nekega bika prikaže tudi splošni opis njegove pasme.</p>
+              </li>
+            </ul>
             <!-- KONEC: Uporabljeni zunanji viri podatkov -->
           </div>
         </div>
@@ -74,9 +88,11 @@
             <h3 class="panel-title">Uporabljena tehnika za vizualizacijo podatkov</h3>
           </div>
           <div class="panel-body">
-            <!-- ZAČETEK: Uporabljeni zunanji viri podatkov -->
-            <p><strong>TO-DO</strong>: Na tem mestu je potrebno navesti uporabljeno tehniko vizualizacije podatkov (za pomoč lahko uporabite primer iz <a href="https://github.com/mbostock/d3/wiki/Gallery" target="_blank">D3.js galerije</a>) in zakaj je bila ta tehnika izbrana.</p>
-            <!-- KONEC: Uporabljeni zunanji viri podatkov -->
+            <!-- ZAČETEK: Uporabljena tehnika visualizacije podatkov -->
+            <p> <img src="https://www.amcharts.com/wp-content/themes/amcharts/static/img/logo.png" style="width: 5%"> <strong>AMCharts</strong> (<a href="https://www.amcharts.com/" target="_blank">klik</a>) je bil uporabljen za izris grafa (prikaz PV12 vrednosti hčera bika), saj je enostaven, podpira 
+            vizualno urejanje grafov (v realnem času), podpira vse moderne brskalnike, podatke vizualizira s pomočjo CSS animacij in
+            je brezplačen tudi za komercialno uporabo.</p>
+            <!-- KONEC: Uporabljena tehnika visualizacije podatkov -->
           </div>
         </div>
       </div>
