@@ -4,14 +4,21 @@
   <meta charset="utf-8">
   <title>eZdravje :: 4. DN :: OIS 2015/2016</title>
   <link href="knjiznice/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <style>
     body {padding-top: 70px;}
     select:invalid {color: #999;}
     .margin-top {margin-top: 15px;}
+    td {padding: 5px;}
+    .info {font-size: 80%; margin-left: 5px;}
   </style>
   <script src="knjiznice/js/jquery-2.2.3.min.js"></script>
   <script src="knjiznice/js/bootstrap.min.js"></script>
   <script src="knjiznice/js/koda.js"></script>
+  <!-- amCharts javascript sources -->
+  <script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+  <script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/light.js"></script>
 </head>
 <body>
 
@@ -31,7 +38,7 @@
         <ul class="nav navbar-nav">
           <li><a href="opis.html">Opis ideje</a></li>
           <li><a href="nacrt.html">Načrt informacijske rešitve</a></li>
-          <li><a href="#">Generiranje podatkov</a></li>
+          <li><a href="#" title="Generira 3 paciente in vrne EHRId v novem pojavnem oknu", onclick="narediBike()">Generiranje podatkov</a></li>
         </ul>
       </div>
     </div>
@@ -42,23 +49,37 @@
   <div class="container">
     <div class="row">
       <!-- PANEL: Prijava novega bika -->
-      <div class="col-lg-12 col-md-6 col-sm-6">
+      <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
           <div class="panel-heading"><strong>PRIJAVA NOVEGA BIKA</strong></div>
           <div class="panel-body">
               <h4><span class="label label-info">Podatki o biku</span></h4>
-              <span class="label label-default">Ime</span><input type="text" id="vnosIme" class="form-control input-sm" placeholder="Milč">
-              <span class="label label-default">Datum rojstva</span><input type="text" id="vnosDatum" class="form-control input-sm" placeholder="29-11-2015">
-              <span class="label label-default">Pasma</span>
-                <select id="vnosPasma" class="form-control input-sm" placeholder="Izbira pasme">
-                  <option value="" selected="selected" disabled="disabled">Izberite pasmo</option>
+              <span class="label label-default">Ime</span><span title="Vnesite ime bika" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right"></span>
+                <input type="text" id="vnosIme" class="form-control input-sm" placeholder="Milč">
+              <span class="label label-default">Datum rojstva</span><span title="Vnesite datum rojstva bika" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right"></span>
+                <input type="text" id="vnosDatum" class="form-control input-sm" placeholder="29-11-2015">
+              <span class="label label-default">Pasma</span><span title="Izberite pasmo iz seznama" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right"></span>
+                <select id="vnosPasma" class="form-control input-sm" required>
+                  <option value="" selected>Izberite pasmo</option>
                   <option value="0">Črnobela</option>
                   <option value="1">Lisasta</option>
                   <option value="2">Rjava</option>
                 </select>
-              <span class="label label-default">Rejec</span><input type="text" id="vnosRejec" class="form-control input-sm" placeholder="David Rubin">
-              <span class="label label-default">Lokacija</span><input type="text" id="vnosLokacija" class="form-control input-sm" placeholder="Draža vas">
-              <h4><span class="label label-info margin-top">Podatki o hčerah</span></h4>
+              <span class="label label-default">Prireja</span><span title="Izberite prirejo, za katero je namenjen" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right"></span>
+              <table>
+                <tr>
+                  <td><label class="radio-inline"><input type="radio" name="optradio" value="Mleko" checked>Prireja mleka</label></td>
+                  <td><label class="radio-inline"><input type="radio" name="optradio" value="Meso">Prireja mesa</label></td>
+                  <td><label class="radio-inline"><input type="radio" name="optradio" value="Kombinirano">Kombinirana prireja</label></td>
+                </tr>
+              </table>
+              
+
+              <span class="label label-default">Rejec</span><span title="Vnesite Vaše ime" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right"></span>
+                <input type="text" id="vnosRejec" class="form-control input-sm" placeholder="David Rubin">
+              <span class="label label-default">Lokacija</span><span title="Vnesite lokacijo bika" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right"></span>
+                <input type="text" id="vnosLokacija" class="form-control input-sm" placeholder="Draža vas">
+              <h4><span class="label label-info margin-top">Podatki o hčerah</span><span title="Vrednosti vnesite v standardu PV12" class="info glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="auto right" style="font-size: 60%"></span><span style="font-size: 60%;cursor: help;" class="info glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#pv12-info"></span></h4>
               <div id="podatkiHcer">
                 <h6 style="display:inline-block; margin-left: 10px;">
                   <span class="label label-warning">Prosimo izberite pasmo za nadaljni vnos podatkov</span>
@@ -69,20 +90,137 @@
         </div>        
       </div>
       <!-- PANEL: Prikaz podatkov o biku -->
-      <div class="col-lg-12 col-md-6 col-sm-6">
+      <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
           <div class="panel-heading"><strong>PRIKAZ PODATKOV O BIKU</strong></div>
           <div class="panel-body">
             <span class="label label-default">EHR ID</span><input type="text" id="vnosEHRId" class="form-control input-sm" placeholder="44070492-d88b-48ab-b60d-923a6d741c39">
             <button type="button" class="btn btn-primary btn-sm margin-top" onclick="preberiBika()">Prikaži podatke</button><span id="odzivIzpisa"></span>
-            <div id="predstavitevPodatkov">
+            <div id="predstavitevPodatkov"></div>
+          </div>
+        </div>
+      </div>
+      <!-- PANEL: Poizvedba po wikipedii glede na pasmo kravice -->
+       <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><strong>POIZVEDBA O PASMI KRAVIC</strong></div>
+          <div class="panel-body">
+            <h4><span class="label label-info">Izberite pasmo ali EHR ID bika</span></h4>
+            <label class="radio-inline" onclick="document.getElementById('ehrWiki').disabled = false; document.getElementById('pasmaWiki').disabled = true;">
+              <input type="radio" name="katera-pasma" value="ehrWiki" checked>
+              <span class="label label-default">EHR ID</span>
+            </label>
+            <input type="text" id="ehrWiki" class="form-control input-sm" placeholder="44070492-d88b-48ab-b60d-923a6d741c39" >
+            
+            <label class="radio-inline" onclick="document.getElementById('pasmaWiki').disabled = false; document.getElementById('ehrWiki').disabled = true;">
+              <input type="radio" name="katera-pasma" value="pasmaWiki">
+              <span class="label label-default">Pasma</span>
+            </label>
+            <select id="pasmaWiki" class="form-control input-sm" onclick="document.getElementById('ehrWiki').disabled = true; document.getElementById('pasmaWiki').disabled = false;" disabled>
+                  <option value="" selected disabled>Izberite pasmo</option>
+                  <option value="0">Črnobela</option>
+                  <option value="1">Lisasta</option>
+                  <option value="2">Rjava</option>
+            </select>
+            <span class="label label-default" style="margin-left: 20px;">Jezik</span>
+             <select id="jezikWiki" class="form-control input-sm">
+                  <option value="sl" selected>Slovenski</option>
+                  <option value="en">Angleški</option>
+            </select>
+            <button type="button" class="btn btn-primary btn-sm margin-top" onclick="preberiWikipedioOPasmi()">Poizvedi</button><span id="odzivPoizvedbe"></span>
+            <table style="margin-top: 20px;">
+              <tr>
+                <td><div id="article"></div></td>
+              </tr>
+              <tr>
+                <td><div id="vir1" style="text-align: right; font-size: 9pt;"></div></td>
+              </tr>
+             </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Ikone-->
+      <div id="pomoc-ikone" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Kaj pomenijo posamezne ikone?</h4>
+            </div>
+            <div class="modal-body">
+              <p> Bik izboljsuje lastnost krave, kadar ima PV12 vrednsot visjo od povprecja.</p>
+              <table>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\vime.png' style='width: 20%; margin: 2%;' > - Izboljsuje vime.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\dolgozivost.png' style='width: 20%; margin: 2%;' > - Povecuje dolgozivost krav.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\noge.png' style='width: 20%; margin: 2%;' > - Izboljsuje noge na kravah.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\okvir.png' style='width: 20%; margin: 2%;' > - Izboljsuje okvir na kravah</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\iztok-mleka.png' style='width: 15%; margin: 2%;' > - Povecuje iztok mleka na kravah.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\somatske-celice.png' style=' width: 15%; margin: 2%;' > - Izboljsuje kolicino somatskih celic v mleku.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\misice.png' style=' width: 15%; margin: 2%;' > - Poveca kolicino misic na kravi.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\robustnost.png' style=' width: 15%; margin: 2%;' > - Izboljsuje robustnost krave.</td>
+                </tr>
+                <tr>
+                  <td><img src='.\\knjiznice\\pictures\\kriz.png' style=' width: 15%; margin: 2%;' > - Izboljsuje križ na kravah.</td>
+                </tr>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Zapri</button>
             </div>
           </div>
+
+        </div>
+      </div>
+
+      <!-- Modal PV12-->
+      <div id="pv12-info" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Vrednost PV12</h4>
+            </div>
+            <div class="modal-body">
+              <p> Vse indekse računamo tako, da izračunamo odstopanje posamezne lastnosti, ki je vključena v
+                  izračun indeksa, od optimalne oz. želene vrednosti in to odstopanje pomnožimo s pripadajočo
+                  utežjo. Vsoto produktov odštejemo od konstante 100. Ta razlika predstavlja surovo vrednost
+                  indeksa
+              </p>
+              <p> Tako kot vse plemenske vrednosti tudi indekse standardiziramo in prikazujemo na t.i. skali
+                  PV12. To pomeni, da je povprečje populacije za proučevano lastnost 100, standardni odklon pa
+                  12. V praksi to pomeni, da je od živali, ki ima PV12 za določeno lastnost 112, boljših živali v
+                  populaciji pribljižno 15 odstotkov, v primeru, da ima PV12 vrednost 124 pa le dobra 2 odstotka.
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Zapri</button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
   <!-- KONEC: Vsebina aplikacije -->
-
 </body>
 </html>
